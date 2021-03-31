@@ -5,7 +5,7 @@ library custom_radio;
 
 import 'package:flutter/material.dart';
 
-typedef AnimationsBuilder<T> = List<Animation<T>> Function(AnimationController);
+typedef AnimationsBuilder<T> = List<Animation<T>> Function(AnimationController?);
 
 typedef RadioBuilder<T, U> = Widget Function(
     BuildContext context, List<U> animValues, Function updateState, T value);
@@ -28,7 +28,7 @@ class CustomRadio<T, U> extends StatefulWidget {
   /// [Function] updateState (call to manually update the state of the widget),
   /// [T] copy of radio value of the widget
 
-  final RadioBuilder<T, U> builder;
+  final RadioBuilder<T, U>? builder;
 
   /// The duration of the animation controller
   final Duration duration;
@@ -65,12 +65,12 @@ class CustomRadio<T, U> extends StatefulWidget {
   ///   is selected.
   /// * [builder] creates the visual layout of the widget.
   CustomRadio({
-    Key key,
-    this.animsBuilder,
+    Key? key,
+    required this.animsBuilder,
     this.duration = const Duration(milliseconds: 600),
-    @required this.builder,
-    @required this.value,
-    @required this.currentGroupValue,
+    required this.builder,
+    required this.value,
+    required this.currentGroupValue,
   })  : assert(duration != null),
         super(key: key);
 
@@ -78,10 +78,10 @@ class CustomRadio<T, U> extends StatefulWidget {
   State<CustomRadio> createState() => _CustomRadioState<T, U>();
 }
 
-class _CustomRadioState<T, U> extends State<CustomRadio<T, U>>
+class _CustomRadioState<T, U> extends State<CustomRadio<T, U?>>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  List<Animation> _animations;
+  late AnimationController _controller;
+  late List<Animation> _animations;
 
   @override
   void initState() {
@@ -97,7 +97,7 @@ class _CustomRadioState<T, U> extends State<CustomRadio<T, U>>
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -122,10 +122,10 @@ class _CustomRadioState<T, U> extends State<CustomRadio<T, U>>
       _updateState();
     }
 
-    final anims = _animations.map<U>((anim) => anim.value).toList();
-    return widget.builder(
+    final anims = _animations.map<U?>((anim) => anim.value).toList();
+    return widget.builder!(
       context,
-      anims.length > 0 ? anims : [widget.checked].cast<dynamic>(),
+      anims.length > 0 ? anims : [widget.checked].cast<dynamic>() as List<U?>,
       _updateState,
       widget.value,
     );

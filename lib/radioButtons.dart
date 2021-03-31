@@ -3,43 +3,43 @@ import 'package:flutter/material.dart';
 
 class RadioButtonGrid<T> extends StatefulWidget {
   RadioButtonGrid(
-      {Key key,
-      this.values,
-      T currentVal,
+      {Key? key,
+      required this.values,
+      T? currentVal,
       this.callback,
-      this.child,
+      required this.child,
       this.crossAxisCount = 3,
       this.crossAxisSpacing = 0.0})
       : _currentVal = ValueNotifier(currentVal),
         super(key: key);
   final List<T> values;
-  final ValueNotifier<T> _currentVal;
-  final void Function() callback;
+  final ValueNotifier<T?> _currentVal;
+  final void Function()? callback;
   final Widget Function(T) child;
   final int crossAxisCount;
   final double crossAxisSpacing;
 
-  T get value => _currentVal.value;
+  T? get value => _currentVal.value;
 
   @override
   _RadioButtonGridState<T> createState() => _RadioButtonGridState<T>();
 }
 
 class _RadioButtonGridState<T> extends State<RadioButtonGrid> {
-  RadioBuilder<T, double> simpleBuilder;
+  RadioBuilder<T?, double>? simpleBuilder;
   double size = 100;
 
   @override
   void initState() {
     simpleBuilder = (BuildContext context, List<double> animValues,
-        Function updateState, T value) {
+        Function updateState, T? value) {
       final alpha = (animValues[0] * 255).toInt();
       return GestureDetector(
         onTap: () {
           setState(() {
             widget._currentVal.value = value;
           });
-          if (widget.callback != null) widget.callback();
+          if (widget.callback != null) widget.callback!();
         },
         child: Container(
 /*           width: size,
@@ -67,12 +67,12 @@ class _RadioButtonGridState<T> extends State<RadioButtonGrid> {
     List<CustomRadio> widg = [];
     widget.values.forEach(
       (f) => widg.add(
-        CustomRadio<T, double>(
+        CustomRadio<T?, double>(
           value: f,
           currentGroupValue: widget.value,
           duration: Duration(milliseconds: 500),
-          animsBuilder: (AnimationController controller) =>
-              [CurvedAnimation(parent: controller, curve: Curves.easeInOut)],
+          animsBuilder: (AnimationController? controller) =>
+              [CurvedAnimation(parent: controller!, curve: Curves.easeInOut)],
           builder: simpleBuilder,
         ),
       ),

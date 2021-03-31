@@ -5,7 +5,7 @@ author: Conrad Heidebrecht <conrad.heidebrecht@gmail.com>
 homepage: https://github.com/eternali/custom_radio
 
 environment:
-  sdk: ">=2.0.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
