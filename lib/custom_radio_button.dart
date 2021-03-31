@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 typedef AnimationsBuilder<T> = List<Animation<T>> Function(AnimationController);
 
-typedef RadioBuilder<T, U> = Widget Function(BuildContext context, List<U> animValues, Function updateState, T value);
+typedef RadioBuilder<T, U> = Widget Function(
+    BuildContext context, List<U> animValues, Function updateState, T value);
 
 /// A custom radio widget.
 ///
@@ -15,17 +16,17 @@ typedef RadioBuilder<T, U> = Widget Function(BuildContext context, List<U> animV
 /// widget in a group is selected, the other radios in the group cease to
 /// be selected. The values are of type `T`, the first type parameter of the [CustomRadio]
 /// class. Enums are commonly used for this purpose.
-/// 
+///
 /// Animation values are of type `U`, the second type parameter of the [CustomRadio] class,
 /// this allows for stronger typing if only one type of animation is required. This can
 /// be set to `dynamic` if more than one type of animation is required.
 class CustomRadio<T, U> extends StatefulWidget {
-/// Builds the radio button with animation state.
-/// 
-/// [BuildContext] context into which to build,
-/// [List<U>] animValues (current values of running animations),
-/// [Function] updateState (call to manually update the state of the widget),
-/// [T] copy of radio value of the widget
+  /// Builds the radio button with animation state.
+  ///
+  /// [BuildContext] context into which to build,
+  /// [List<U>] animValues (current values of running animations),
+  /// [Function] updateState (call to manually update the state of the widget),
+  /// [T] copy of radio value of the widget
 
   final RadioBuilder<T, U> builder;
 
@@ -35,32 +36,32 @@ class CustomRadio<T, U> extends StatefulWidget {
   /// Returns the list of child animations whose values will be passed to the builder.
   /// Called on initState.
   final AnimationsBuilder<U> animsBuilder;
-  
+
   /// The value represented by this radio button.
   final T value;
-  
-  /// The currently selected value for this group of radio buttons.
-  /// 
-  /// This radio button is considered selected if its [value] matches the
-  /// [groupValue].
-  final T groupValue;
 
-  bool get checked => value == groupValue;
+  /// The currently selected value for this group of radio buttons.
+  ///
+  /// This radio button is considered selected if its [value] matches the
+  /// [currentGroupValue].
+  final T currentGroupValue;
+
+  bool get checked => value == currentGroupValue;
 
   /// Creates a custom radio widget.
-  /// 
+  ///
   /// The widget itself does not maintain any state. Instead, it is up to
-  /// the user to rebuild the radio widget when [groupValue] changes.
+  /// the user to rebuild the radio widget when [currentGroupValue] changes.
   /// The widget will automatically update its animation controller when
   /// it detects a change.
-  /// 
+  ///
   /// If no [animsBuilder] is passed, the widget will switch between selected
   /// states with no animation and the [animValues] passed to [builder] will be a
   /// list with the only element being whether the widget is checked or not.
-  /// 
+  ///
   /// The following arguments are required:
-  /// 
-  /// * [value] and [groupValue] together determine whether the radio button
+  ///
+  /// * [value] and [currentGroupValue] together determine whether the radio button
   ///   is selected.
   /// * [builder] creates the visual layout of the widget.
   CustomRadio({
@@ -69,7 +70,7 @@ class CustomRadio<T, U> extends StatefulWidget {
     this.duration = const Duration(milliseconds: 600),
     @required this.builder,
     @required this.value,
-    @required this.groupValue,
+    @required this.currentGroupValue,
   })  : assert(duration != null),
         super(key: key);
 
