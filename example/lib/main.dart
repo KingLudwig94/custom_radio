@@ -127,10 +127,11 @@ class _MyHomePageState extends State<MyHomePage>
       appBar: AppBar(title: Text(widget.title)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: RadioButtonGrid(
-          values: ['a', 'v', 'c', 'd', 'e', 'f'],
-          crossAxisCount: 3,
+        child: RadioButtonGrid<String>(
+          currentVal: ValueNotifier(null),
+          values: ['a', 'v', 'c', 'd', 'e','f','g'],
           crossAxisSpacing: 10,
+          crossAxisCount: 4,
           child: (value) => Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
